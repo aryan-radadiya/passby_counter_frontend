@@ -1,0 +1,62 @@
+<mat-grid-list cols="5" rowHeight="100px">
+    <mat-grid-tile
+        *ngFor="let tile of tiles; index as i"
+        [colspan]="tile.cols"
+        [rowspan]="tile.rows"
+        [style.background]="tile.color">
+        <div *ngIf="i == 0; else elseBlock">{{tile.text}}<br>Counted from: {{resetTimestamp | date: 'dd/MM/yyyy HH:mm:ss'}}</div>
+        <ng-template #elseBlock>{{tile.text}}</ng-template>
+    </mat-grid-tile>
+</mat-grid-list>
+<div id="table">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+    
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef> Date </th>
+      <td mat-cell *matCellDef="let element"> {{element.startTime | date: 'dd/MM/yyyy'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="startTime">
+      <th mat-header-cell *matHeaderCellDef> Start Time </th>
+      <td mat-cell *matCellDef="let element"> {{element.startTime | date: 'HH:mm:ss'}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="endTime">
+      <th mat-header-cell *matHeaderCellDef> End Time </th>
+      <td mat-cell *matCellDef="let element"> {{element.endTime | date: 'HH:mm:ss'}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="inCount">
+      <th mat-header-cell *matHeaderCellDef> Entry Count </th>
+      <td mat-cell *matCellDef="let element"> {{element.inCount}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="outCount">
+      <th mat-header-cell *matHeaderCellDef> Exit Count </th>
+      <td mat-cell *matCellDef="let element"> {{element.outCount}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="totalCount">
+      <th mat-header-cell *matHeaderCellDef> Total Count </th>
+      <td mat-cell *matCellDef="let element"> {{element.totalCount}} </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+</div>
+
+<mat-paginator #paginator
+               class="demo-paginator"
+               (page)="handlePageEvent($event)"
+               [length]="length"
+               [pageSize]="pageSize"
+               [disabled]="disabled"
+               [showFirstLastButtons]="showFirstLastButtons"
+               [pageIndex]="pageIndex"
+               aria-label="Select page">
+</mat-paginator>
